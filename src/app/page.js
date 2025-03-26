@@ -1,25 +1,31 @@
 
-import MenuBar from '../components/MenuBar';
+import DogCard from '../components/DogCard';
 
-export default function Home() {
+export default async function Home() {
+  const response = await fetch("https://dogapi.dog/api/v2/breeds")
+  const resJson = await response.json()
+  const dogs = resJson.data
+
+console.log(dogs)
+
+
   return (
-    <div className="wrapper px-[16px]">
-      <header className="flex
-      justify-between items-center
-      mb-[16px] mt-[16px]">
-        <h3 className="text-[28px] font-bold">Klonqdoublek</h3>
-        <img className="w-[32px] h-[32px]" src="/menu.svg" />
-      </header>
+    <>
+  
+      {/* Dog Cards Section */}
+      <div className="container mx-auto px-4 py-8">
+        <h2 className="text-2xl font-bold mb-6">Dog Breeds</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {dogs.map(dog => (
+            <DogCard 
+              key={dog.id}
+              name={dog.attributes.name} 
+              description={dog.attributes.description} 
+            />
+          ))}
+        </div>
+      </div>
 
-
-      <main className="flex flex-col gap-[16px]">
-        <input type="text" placeholder="Search..." 
-        className="p-[16px] border-black-100 border-[1px] 
-        rounded-[32px] w-[100%]"/>
-        <img className="db rounded-[24px] w-[100%]" src="/picc1.png"/>
-        <img className="db rounded-[24px] w-[100%]" src="/picc2.png"/>
-      </main>
-    </div>
+    </>
   );
 }
-
